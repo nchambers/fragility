@@ -1,0 +1,18 @@
+name: fragility
+channels:
+  - conda-forge
+dependencies:
+  - accelerate
+  - bitsandbytes
+  - datasets
+  - flash-attn-layer-norm
+  - nltk
+  - protobuf
+  - python=3.12
+  - pytorch
+  - sentencepiece
+  - spacy
+  - tiktoken
+  - torchvision
+  - transformers
+
