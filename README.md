@@ -14,7 +14,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY
 
 ## Mamba package Setup
 
-You can use the environments.yml file provided to directly create an *fragility* environment:
+You can use the environments.yml file provided to directly create an *fragility* environment:  
     ```mamba env create -f environment.yml```
 
 Or install the packages manually from scratch yourself:
