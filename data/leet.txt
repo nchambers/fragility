@@ -1,0 +1,11 @@
+0,z3r0,zer0,z€r0  
+1,0n3,0ne,0n€  
+2,7w0,tw0,7wo  
+3,7hr33,thr33,7hree,7|-|r33  
+4,f0ur,ph0ur,4our,4o|_|r  
+5,f1v3,ph1v3,5ive,5iv3  
+6,s1x,s!x,5ix,§ix  
+7,53v3n,s3v3n,7ev3n,7€v€n  
+8,31gh7,3igh7,3ig#7,8ight  
+9,n1n3,nin3,9ine,9in€
+-,-
