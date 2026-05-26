@@ -6,10 +6,12 @@ This project contains a benchmark dataset and scoring program to measure the bri
 Typical environment for CUDA execution:
 
 **Example CUDA Environment**
-```export CUDA_HOME=/usr/local/cuda-12.3  
+```bash
+export CUDA_HOME=/usr/local/cuda-12.3  
 export CPATH=$CUDA_HOME/include:$CPATH  
 export PATH=$CUDA_HOME/bin:$PATH  
-export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY_PATH```
+export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
+```
 
 ## Package Setup
 
