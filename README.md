@@ -12,39 +12,34 @@ export PATH=$CUDA_HOME/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
 
 
-======= Package Setup =======
--- Using pip
-Step 1:
-    Create a python virtual environment 
-    ~$ python -m name_virtual_env
+## Package Setup
 
-Step 2:
-    Activate your new environment
-    ~$ source name_virtual_env/bin/activate
+### Using pip
 
-Step 3:
-    Install the dependencies
-    ~$ pip install -r requirements.txt
+1. **Create a Python virtual environment**
+   ```python -m venv name_virtual_env```
+2. **Activate your new environment**
+    ```source name_virtual_env/bin/activate```
+3. **Install the dependencies**
+    ```pip install -r requirements.txt```
 
--- Using mamba
-Step 1:
-    Create a mamba environment
-    ~$ mamba create -n name_env
+### Using mamba
 
-Step 2:
-    Activate your environment
-    ~$ mamba actiavte name_env
+1. **Create a mamba environment**
+    ```mamba create -n name_env```
 
-Step 3:
-    Install packages (might not need spacy+nltk, could test this later)
-    ~$ mamba install -c conda-forge -c pytorch transformers pytorch torchvision flash-attn-layer-norm spacy nltk tiktoken protobuf accelerate sentencepiece bitsandbytes datasets
+2. **Activate your environment**
+    ```mamba actiavte name_env```
+
+3. **Install packages**
+    ```mamba install -c conda-forge -c pytorch transformers pytorch torchvision flash-attn-layer-norm spacy nltk tiktoken protobuf accelerate sentencepiece bitsandbytes datasets```
 
 
 
 ## How to Run
 
-Command-line:
+Command-line:  
 python fragility.py [-outdir <dir>] [-quant <int>] <model_name>
 
-Example:
+Example:  
 python fragility.py -outdir /data/outputs/ llama3b_in
