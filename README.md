@@ -3,9 +3,8 @@ This project contains a benchmark dataset and scoring program to measure the bri
 
 ## Environment Setup
 
-Typical environment for CUDA execution:
+Setup your typical environment variables. Point to your local copy of CUDA, below is an example with v12.3:
 
-**Example CUDA Environment**
 ```bash
 export CUDA_HOME=/usr/local/cuda-12.3  
 export CPATH=$CUDA_HOME/include:$CPATH  
@@ -42,7 +41,7 @@ export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY
 ## How to Run
 
 Command-line:  
-python fragility.py [-outdir dir] [-quant int] model_name
+```python fragility.py [-outdir dir] [-quant int] model_name```
 
 Example:  
-python fragility.py -outdir /data/outputs/ llama3b_in
+```python fragility.py -outdir /data/outputs/ llama3b_in```
