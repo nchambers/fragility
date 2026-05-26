@@ -1,16 +1,15 @@
 # LLM Fragility Scoring
 This project contains a benchmark dataset and scoring program to measure the brittleness/fragility of LLMs when faced with input text that contains non-ASCII characters and other noisy confounding input, like spurious characters, spacing, and capitalization.
 
-## Setup
+## Environment Setup
 
-Setting up your Environment to run the LLMs
+Typical environment for CUDA execution:
 
-======= Example Environment =======
-export CUDA_HOME=/usr/local/cuda-12.3
-export CPATH=$CUDA_HOME/include:$CPATH
-export PATH=$CUDA_HOME/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
-
+**Example CUDA Environment**
+```export CUDA_HOME=/usr/local/cuda-12.3  
+export CPATH=$CUDA_HOME/include:$CPATH  
+export PATH=$CUDA_HOME/bin:$PATH  
+export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY_PATH```
 
 ## Package Setup
 
