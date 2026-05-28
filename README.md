@@ -1,5 +1,5 @@
 # LLM Fragility Scoring
-This project contains a benchmark dataset and scoring program to measure the brittleness/fragility of LLMs when faced with input text that contains non-ASCII characters and other noisy confounding input, like spurious characters, spacing, and capitalization.
+This project contains a benchmark dataset and scoring program to measure the brittleness/fragility of LLMs when faced with input text that contains non-ASCII characters and other noisy confounding input, like spurious characters, spacing, and punctuation.
 
 ## Environment Setup
 
@@ -31,10 +31,14 @@ Or install the packages manually from scratch yourself:
 ## How to Run
 
 Command-line:  
-```python fragility.py [-outdir dir] [-quant int] model_name```
+```
+python fragility.py [-outdir dir] [-quant int] model_name
+```
 
 Example:  
-```python fragility.py -outdir /data/outputs/ llama3b_in```
+```
+python fragility.py -outdir /data/outputs/ llama3b_in
+```
 
 Score the result:
 ```

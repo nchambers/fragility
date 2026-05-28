@@ -5,7 +5,7 @@
 # export OPENAI_API_KEY="your_api_key_here"
 #
 # For the OpenAI library:
-# mamba install conda-forge::openai 
+# mamba install conda-forge::openai backoff
 #
 import os
 import sys
