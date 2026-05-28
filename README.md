@@ -35,3 +35,21 @@ Command-line:
 
 Example:  
 ```python fragility.py -outdir /data/outputs/ llama3b_in```
+
+Score the result:
+```
+python tools/scorer.py /data/outputs/model-llama3b_in
+```
+
+
+## How to Test Specific LLMs
+
+This software is designed to test LLMs that you have already cached/downloaded on your machine. 
+
+Your first step is to download a model and note its drive location. You can use our download tool, if you wish:
+
+    ```
+    python tools/download_models.py /data/models/
+    ```
+
+This will download the models you list in `download_models.py` to your /data/models/MODEL directory. You can then update `models.py` to have a function that wraps your chosen LLM. Give it a name, and that is the name you put in the command-line call to `fragility.py`.
