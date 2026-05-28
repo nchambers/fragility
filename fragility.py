@@ -612,9 +612,11 @@ if __name__ == "__main__":
     accuracy = tool.what_is_this_word("whatisthis-word.txt",cot=False,cod=False,N=300,mode='lookalike')
     grades['whatisword-unicode'] = accuracy
     print(f"Overall: {accuracy}")
+
     print('What is this word underscore test:')
     accuracy = tool.what_is_this_word("whatisthis-word-under.txt",cot=False,cod=False,N=300,mode='underscore')
     grades['whatisword-underscore'] = accuracy
+
     print(f"Overall: {accuracy}")
     accuracies = []
     for i in range(1,6):
@@ -706,9 +708,6 @@ if __name__ == "__main__":
         accuracies.append( round(acc,3) )
     grades['lookalike_noise'] = sum( [w*a for w,a in zip([0.35,0.25,0.2,0.15,0.05], accuracies)] )
     print(f"Grade: {grades[list(grades)[-1]]} Lookalike + Noise accuracies: {accuracies}")
-
-    # TRANSFERRED MMLU CODE TO THE NEW benchmarks.py FROM chain.py. 
-    # -- potentially remove chain.py completely after this.
 
     from benchmarks import Benchmarks
     B = Benchmarks(model, outdir=tool.outdir)
