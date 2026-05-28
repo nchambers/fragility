@@ -63,8 +63,12 @@ def get_word_guess(generated):
     if generated.startswith("a:"):
         generated = generated.split("a:")[-1].strip()
 
+    # If blank string
+    if len(generated) == 0:
+        return ""
+
     # Take the first word if there are multiple words
-    generated = generated.split()[0]  
+    generated = generated.split()[0]
 
     return generated
 
