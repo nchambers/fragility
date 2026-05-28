@@ -27,6 +27,18 @@ Or install the packages manually from scratch yourself:
     ```mamba install -c conda-forge -c pytorch transformers pytorch torchvision flash-attn-layer-norm spacy nltk tiktoken protobuf accelerate sentencepiece bitsandbytes datasets```
 
 
+## Download Your Specific LLMs
+
+This software is designed to test LLMs that you have already cached/downloaded on your machine. 
+
+Your first step is to download a model and note its drive location. You can use our download tool, if you wish:
+
+```
+python tools/download_models.py /data/models/
+```
+
+This will download the models you list at the top of `download_models.py` to your /data/models/ directory. You must then look inside `models.py` and make sure you have a function that wraps your chosen LLM. Several are in there, but you'll have to make a new one for any additional models. Give it a function name, and that is the name you put in the command-line call to `fragility.py` below under "How to Run".
+
 
 ## How to Run
 
@@ -46,14 +58,3 @@ python tools/scorer.py /data/outputs/model-llama3b_in
 ```
 
 
-## How to Test Specific LLMs
-
-This software is designed to test LLMs that you have already cached/downloaded on your machine. 
-
-Your first step is to download a model and note its drive location. You can use our download tool, if you wish:
-
-```
-python tools/download_models.py /data/models/
-```
-
-This will download the models you list in `download_models.py` to your /data/models/ directory. You can then update `models.py` to have a function that wraps your chosen LLM. Give it a name, and that is the name you put in the command-line call to `fragility.py`.
