@@ -70,12 +70,12 @@ text. For instance, if your prompted task is math:
 
 Run the `chainofdict.py` program with the above text prompt, and it will return:
 
-    These are the hints for the digits in the prompt. Use them to help you answer the question.
+    These are hints for characters in this prompt. Use them to help answer the question:
     ჳ looks like 3
 
 You can then add this to your prompt, such as:
 
-    These are the hints for the digits in the prompt. Use them to help you answer the question.
+    These are hints for characters in this prompt. Use them to help answer the question:
     ჳ looks like 3
     You are a helpful math assistant. Below is a basic algebra question. Please answer it:
     What is ჳ + 2?
