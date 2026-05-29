@@ -60,7 +60,7 @@ class ChainOfDict:
                 hints += self.dict[digit] + '\n'
 
         if len(hints) > 0:
-            hints = "These are the hints for the digits in the prompt. Use them to help you answer the question.\n" + hints.strip()
+            hints = "These are hints for characters in this prompt. Use them to help answer the question:\n" + hints.strip()
         
         return hints
 
