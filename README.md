@@ -1,6 +1,7 @@
 # LLM Fragility Scoring
 This project contains a benchmark dataset and scoring program to measure the brittleness/fragility of LLMs when faced with input text that contains non-ASCII characters and other noisy confounding input, like spurious characters, spacing, and punctuation.
 
+
 ## Environment Setup
 
 Setup your typical environment variables. Point to your local copy of CUDA, below is an example with v12.3:
@@ -58,3 +59,25 @@ python tools/scorer.py /data/outputs/model-llama3b_in
 ```
 
 
+# Prompt Assistance with Chain-of-Dictionary Lookalikes
+
+This repo also contains a program that inputs your prompt, identifies unicode lookalike characters,
+and returns a string that can be added to your prompt to assist an LLM in interpreting the
+text. For instance, if your prompted task is math:
+
+    You are a helpful math assistant. Below is a basic algebra question. Please answer it:
+    What is ჳ + 2?
+
+Run the `chainofdict.py` program with the above text prompt, and it will return:
+
+    These are the hints for the digits in the prompt. Use them to help you answer the question.
+    ჳ looks like 3
+
+You can then add this to your prompt, such as:
+
+    These are the hints for the digits in the prompt. Use them to help you answer the question.
+    ჳ looks like 3
+    You are a helpful math assistant. Below is a basic algebra question. Please answer it:
+    What is ჳ + 2?
+
+This chain-of-dictionary approach has been shown to improve performance when your context or questions include confounding unicode characters.
