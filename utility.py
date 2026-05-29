@@ -359,7 +359,7 @@ def generate_all_perturbations(lookalikes,numbers):
 
 def generate_hints(lookalikes):
     """
-    Gernerates the dictionary that will be used for chain of dict
+    Gernerates the DIGIT dictionary that will be used for chain of dict. Only creates digit hints.
     Key: the lookalike ascii character (such as ੧)
     Value: "੧ looks like 9"
     """
