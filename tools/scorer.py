@@ -1,3 +1,12 @@
+"""
+This is the official scorer for the Fragility Score.
+Call the program with the path to the directory containing the text files to be scored. 
+The program will read all .txt files in the directory, calculate accuracy for each file, 
+and print a summary of accuracy scores along with various grades based on the scores.
+
+python scorer.py <path_to_directory>
+"""
+
 import os
 
 
