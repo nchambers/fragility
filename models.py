@@ -11,7 +11,7 @@ import sys
 import subprocess
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from LLM import LLM
-# from OpenAI import OpenAIModel
+from OpenAI import OpenAIModel
 
 def optimal_gpu():
     """
@@ -106,6 +106,7 @@ class GenericModel(LLM):
             qn_config = BitsAndBytesConfig(load_in_8bit=True)
         elif quantization == 4:
             qn_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+       
         # load the model to the device
         self.model = AutoModelForCausalLM.from_pretrained(
             self.pth,
@@ -145,6 +146,34 @@ class phi2(GenericModel):
     def __init__(self,qn=None):     
         super().__init__("/home/scs/nchamber/data/models/Phi2",device=optimal_gpu(),quantization=qn)
 
+class phi3_4b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/phi3-mini-4b",device=optimal_gpu(),quantization=qn)
+
+class phi3_7b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/phi3-small-7b-instant",device=optimal_gpu(),quantization=qn)
+
+class phi3_14b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/phi3-med-14b",device=optimal_gpu(),quantization=qn)
+
+class gemma1b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/gemma-3-1b-it",device=optimal_gpu(),quantization=qn)
+
+class gemma4b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/gemma-3-4b-it",device=optimal_gpu(),quantization=qn)
+
+class gemma12b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/gemma-3-12b-it",device=optimal_gpu(),quantization=qn)
+
+class gemma27b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/gemma-3-27b-it",device=optimal_gpu(),quantization=qn)
+
 class llama1b(GenericModel):
     def __init__(self,qn=None):     
         super().__init__("/home/scs/nchamber/data/models/Llama3.2-1B",device=optimal_gpu(),quantization=qn)
@@ -169,6 +198,30 @@ class llama70b_in(BatchModel):
     def __init__(self,qn=None):
         super().__init__("/home/scs/nchamber/data/models/Llama3.3-70B-Instruct/",device=optimal_gpu(),quantization=qn)
         
+class qwen0p6b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/qwen3-0.6b",device=optimal_gpu(),quantization=qn)
+
+class qwen1p7b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/qwen3-1.7b",device=optimal_gpu(),quantization=qn)
+
+class qwen4b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/qwen3-4b",device=optimal_gpu(),quantization=qn)
+
+class qwen8b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/qwen3-8b",device=optimal_gpu(),quantization=qn)
+
+class qwen14b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/qwen3-14b",device=optimal_gpu(),quantization=qn)
+
+class qwen32b(GenericModel):
+    def __init__(self,qn=None):     
+        super().__init__("/home/scs/nchamber/data/models/qwen3-32b",device=optimal_gpu(),quantization=qn)
+
 class vicuna7b(GenericModel):
     def __init__(self,qn=None):
         super().__init__("/home/scs/nchamber/data/models/vicuna-7B/",device=optimal_gpu(),quantization=qn)
@@ -177,11 +230,7 @@ class vicuna13b(GenericModel):
     def __init__(self,qn=None):
         super().__init__("/home/scs/nchamber/data/models/vicuna-13B/",device=optimal_gpu(),quantization=qn)
 
-class gemma4bpt(GenericModel):
-    def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/gemma-3-4b-pt/",device=optimal_gpu(),quantization=qn)
-
-class mixtral7b(GenericModel):
+class mixtral7b(BatchModel):
     def __init__(self,qn=None):
         super().__init__("/home/scs/nchamber/data/models/Mixtral-7B/",device=optimal_gpu(),quantization=qn)
 
@@ -193,52 +242,80 @@ class mistral_small_in(GenericModel): # 24B
     def __init__(self, qn=None):
         super().__init__("/home/scs/nchamber/data/models/Mistral-Small-Instruct/",device=optimal_gpu(),quantization=qn)
 
-class deepseek_8b(GenericModel):
+class deepseek_1p5b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-8B/",device=optimal_gpu(),quantization=qn)
+        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-1.5B/",device=optimal_gpu(),quantization=qn)
+
+class deepseek_7b(GenericModel):
+    def __init__(self,qn=None):
+        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-7B/",device=optimal_gpu(),quantization=qn)
 
 class deepseek_14b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-14B/",device=optimal_gpu(),quantization=qn)
+        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-14B/",device=optimal_gpu(),quantization=qn)
 
 class deepseek_32b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-32B/",device=optimal_gpu(),quantization=qn)
+        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-32B/",device=optimal_gpu(),quantization=qn)
 
-class deepseek_70b(BatchModel):
+class olmo1b(GenericModel):
+    def __init__(self,qn=None):
+        super().__init__("/home/scs/nchamber/data/models/OLMo-2-0425-1B-Instruct/",device=optimal_gpu(),quantization=qn)
+
+class olmo7b(GenericModel):
+    def __init__(self,qn=None):
+        super().__init__("/home/scs/nchamber/data/models/OLMo-2-1124-7B-Instruct/",device=optimal_gpu(),quantization=qn)
+
+class olmo13b(GenericModel):
+    def __init__(self,qn=None):
+        super().__init__("/home/scs/nchamber/data/models/OLMo-2-1124-13B-Instruct/",device=optimal_gpu(),quantization=qn)
+
+class olmo32b(GenericModel):
+    def __init__(self,qn=None):
+        super().__init__("/home/scs/nchamber/data/models/OLMo-2-0325-32B-Instruct/",device=optimal_gpu(),quantization=qn)
+
+class gpt_3_5_turbo(OpenAIModel):
     def __init__(self, qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-70B/",device=optimal_gpu(),quantization=qn)
+        super().__init__('gpt-3.5-turbo-0125')
+        self.temperature = 0
 
-# class gpt_3_5_turbo(OpenAIModel):
-#     def __init__(self, qn=None):
-#         super().__init__('gpt-3.5-turbo-0125')
-#         self.temperature = 0
+class gpt_o4_mini(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('o4-mini-2025-04-16')
 
-# class gpt_o4_mini(OpenAIModel):
-#     def __init__(self, qn=None):
-#         super().__init__('o4-mini-2025-04-16')
+class gpt_4o(OpenAIModel): # most expensive
+    def __init__(self, qn=None):
+        super().__init__('gpt-4o-2024-11-20')
+        self.temperature = 0
 
-# class gpt_4o(OpenAIModel): # most expensive
-#     def __init__(self, qn=None):
-#         super().__init__('gpt-4o-2024-11-20')
-#         self.temperature = 0
+class gpt_4o_mini(OpenAIModel):
+    def __init__(self, qn=None):
+        #super().__init__('gpt-4o-mini-2024-07-18')
+        super().__init__('gpt-4o-mini')
 
-# class gpt_4o_mini(OpenAIModel):
-#     def __init__(self, qn=None):
-#         #super().__init__('gpt-4o-mini-2024-07-18')
-#         super().__init__('gpt-4o-mini')
+class gpt_4_1_mini(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('gpt-4.1-mini')
 
-# class gpt_4_1_mini(OpenAIModel):
-#     def __init__(self, qn=None):
-#         super().__init__('gpt-4.1-mini')
+class gpt_4_1(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('gpt-4.1')
 
-# class gpt_4_1(OpenAIModel):
-#     def __init__(self, qn=None):
-#         super().__init__('gpt-4.1')
+class gpt_5_mini(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('gpt-5-mini')
 
-# class gpt_5_mini(OpenAIModel):
-#     def __init__(self, qn=None):
-#         super().__init__('gpt-5-mini')
+class gpt_5_4_mini(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('gpt-5.4-mini')
+
+class gpt_5_4(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('gpt-5.4')
+
+class gpt_5_5(OpenAIModel):
+    def __init__(self, qn=None):
+        super().__init__('gpt-5.5')
 
 class tester(GenericModel):
     """
