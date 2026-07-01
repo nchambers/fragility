@@ -587,8 +587,11 @@ if __name__ == "__main__":
     print(f"Loaded model: {model_name}")
 
     # Compute batch size based on model type
-    if model_name in ['phi2','llama1b','llama1b_in','llama3b','llama3b_in','vicuna7b','deepseek_8b','deepseek_14b','mistral_small','mistral_small_in']:
+    if model_name in ['phi2','llama1b','llama1b_in','llama3b','llama3b_in','vicuna7b','deepseek_8b','deepseek_14b','qwen1p7b','qwen4b','qwen8b','qwen14b','gemma1b','gemma4b','gemma12b','mistral_small','mistral_small_in']:
         batch_size = 32
+    elif model_name in ['mixtral7b']:
+        batch_size = 1
+        print("SETTING BATCH SIZE TO ONE!")
     else:
         batch_size = 16
 
@@ -722,6 +725,20 @@ if __name__ == "__main__":
     grades['mmlu2'] = B.mmlu_test("mmlu-20.txt", seed=143, altered_prob=0.2)
     print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
 
+    # # MMLU 40% noise
+    # print('MMLU test with 40% perturbed')
+    # grades['mmlu4'] = B.mmlu_test("mmlu-40.txt", seed=144, altered_prob=0.4)
+    # print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
+
+    # # MMLU 60% noise
+    # print('MMLU test with 60% perturbed')
+    # grades['mmlu6'] = B.mmlu_test("mmlu-60.txt", seed=145, altered_prob=0.6)
+    # print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
+
+
+    # --------------------------------------------------
+    # WARNING: this is just an approximate score. Use the scorer.py tool for the official linear combination.
+    # --------------------------------------------------
 
     # Grade for all phone/digit tests.
     phone_grade = 0.2*grades['whatisdig'] + \
@@ -735,10 +752,14 @@ if __name__ == "__main__":
         0.2*grades['multiCoT'] + \
         0.1*grades['noise'] + 0.1*grades['spell'] + 0.1*grades['lookalike_noise']
 
-    # Need to put MMLU and one other NLP test here.
-    mmlu_grade = min(1.0, grades['mmlu2']/grades['mmlu'])
-    NLU_grade = 0.5*mmlu_grade + 0.15*grades['whatisword-unicode'] + 0.15*grades['whatisword-underscore'] + 0.2*grades['whatissent']
-    overall_grade = 0.3*NLU_grade + 0.1*grades['whatislet'] + 0.6*phone_grade
+    # How much do unicode chars help -- compared to just underscore blanks.
+    improvement = min(1, max(0, (accs['whatisthis-word'] - accs['whatisthis-word-under'])) / accs['whatisthis-word-under'])
+    # Include the raw unicode-word score, but also its improvement over underscores.
+    letters_grade = 0.2*accs['whatisthis-let'] + 0.3*accs['whatisthis-word'] + 0.2*improvement + 0.3*accs['whatisthis-word-noise2']
+
+    mmlu_grade = min(1.0, accs['mmlu-20']/accs['mmlu'])
+    NLU_grade = 0.6*mmlu_grade + 0.4*accs['whatisthis-sent']
+    overall_grade = 0.3*NLU_grade + 0.3*letters_grade + 0.4*phone_grade
 
     print(f"PHONE grade for {model_name}: {round(phone_grade,3)}")
     print(f"PHONE grade (no CoD) for {model_name}: {round(phone_noCoD_grade,3)}")
