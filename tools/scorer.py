@@ -28,6 +28,7 @@ def calculate_accuracy(file_path: str) -> float:
         float: The accuracy score
     """
     correct_predictions = 0
+    blank_guesses = 0
     total_predictions = 0
     current_target = None
 
@@ -47,15 +48,21 @@ def calculate_accuracy(file_path: str) -> float:
                 total_predictions += 1
                 if current_target == guessed_value:
                     correct_predictions += 1
+                elif guessed_value == "":
+                    blank_guesses += 1
 
                 # Reset current_target after a pair is processed
                 current_target = None
 
-    if total_predictions == 0:
-        return 0.0  # Avoid division by zero if no pairs were found
-    else:
-        #print(f"Total Predictions: {total_predictions}, Correct Predictions: {correct_predictions}")
-        return correct_predictions / total_predictions
+    blank_percent = (blank_guesses / total_predictions) if total_predictions > 0 else 0
+    accuracy = (correct_predictions / total_predictions) if total_predictions > 0 else 0
+    return accuracy,blank_percent
+
+    # if total_predictions == 0:
+    #     return 0.0  # Avoid division by zero if no pairs were found
+    # else:
+    #     #print(f"Total Predictions: {total_predictions}, Correct Predictions: {correct_predictions}")
+    #     return correct_predictions / total_predictions
 
 
 def score_dir(dirpath: str):
@@ -72,6 +79,7 @@ def score_dir(dirpath: str):
         raise NotADirectoryError(f"The path '{dirpath}' is not a directory.")
 
     accs = {}
+    blanks = {}
     print(f"\nProcessing files in directory: {dirpath}")
 
     # Find all files in the dir
@@ -80,11 +88,15 @@ def score_dir(dirpath: str):
             #print(f"  - Processing file: {entry_name}")
             full_path = os.path.join(dirpath, entry_name)
             file_name_without_ext = os.path.splitext(entry_name)[0]
-            accs[file_name_without_ext] = calculate_accuracy(full_path)
+            acc,blankpercent = calculate_accuracy(full_path)
+            accs[file_name_without_ext] = acc
+            blanks[file_name_without_ext] = blankpercent
 
     print("\n--- Accuracy Scores Summary ---")
     for key in sorted(accs.keys()):
         print(f"{key}\t{accs[key]:.3f}")
+        if "mmlu" in key:
+            print(f"{key}-blank-guesses\t{blanks[key]:.3f}")
     print("-----------------------------\n")
 
     # Compute Fragility Scores
