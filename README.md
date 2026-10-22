@@ -11,6 +11,7 @@ export CUDA_HOME=/usr/local/cuda-12.3
 export CPATH=$CUDA_HOME/include:$CPATH  
 export PATH=$CUDA_HOME/bin:$PATH  
 export LD_LIBRARY_PATH=/usr/local/cuda-12.3/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
+export OPENAI_API_KEY=""
 ```
 
 ## Mamba package Setup

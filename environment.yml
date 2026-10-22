@@ -15,4 +15,5 @@ dependencies:
   - tiktoken
   - torchvision
   - transformers
-
+  - backoff
+  - openai
