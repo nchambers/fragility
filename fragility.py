@@ -5,6 +5,7 @@
 import models
 import os
 import sys
+import time
 from tqdm import tqdm
 import random
 import torch
@@ -16,6 +17,8 @@ import utility
 import logging
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
+MIMIC_PAPER_RANDOM = False # If True, use the same random seed as the paper for reproducibility.
+
 class Fragility():
     def __init__(self, model, batch_size=16):
         self.outdir = "/data/outputs" # Output directory for all test output files.
@@ -24,7 +27,6 @@ class Fragility():
         self.hints = generate_hints(self.chars)
         self.batch_size = batch_size
         print(f"Fragility tool initialized with {type(model)} and batch size: {self.batch_size}")
-        # random.seed(42)
 
     # unicode_ascii_test
     def what_is_this_unicode_baseline(self,outputFile,typee="digits",new_tokens=5):
@@ -38,9 +40,10 @@ class Fragility():
             new_tokens (int): number of new tokens
         """
 
-        random.seed(242)
-        if typee == 'digits':
-            random.seed(243)
+        if MIMIC_PAPER_RANDOM:
+            random.seed(242)
+            if typee == 'digits':
+                random.seed(243)
 
         alphabet_prompt = """I will give you a unicode character which looks similar to an ASCII letter a-z or A-Z. Your task is to determine what ASCII letter the unicode character most likely resembles. The letter I give is case-sensitive.\nQuestion: What ASCII character is most similar to this unicode character: 𝞐\nAnswer: A\nQuestion: What ASCII character is most similar to this unicode character: 𝟋\nAnswer: f\nQuestion: What ASCII character is most similar to this unicode character:"""
         digit_prompt = """I will give you a unicode character that looks similar to a digit. Your task is to determine what digit that unicode character looks the most similar to.\nQuestion: What ASCII digit is most similar to this unicode character: 𝟚\nAnswer: 2\nQuestion: What ASCII digit is most similar to this unicode character: 𝟞\nAnswer: 6\nQuestion: What ASCII digit is most similar to this unicode character:"""
@@ -95,8 +98,9 @@ class Fragility():
         """This test adds noise to a phone number based on filler_noise."""
 
         # Unique seed based on parameters as long as probs are >= 0.1
-        rseed = 2500 + int(1*lookalike + 2*spelling + 4*leet + 8*noise + 160*char_prob + 320*filler_noise)
-        random.seed(rseed)
+        if MIMIC_PAPER_RANDOM:
+            rseed = 2500 + int(1*lookalike + 2*spelling + 4*leet + 8*noise + 160*char_prob + 320*filler_noise)
+            random.seed(rseed)
 
         prompt_phones = [ "2144357735", "7754263233", "5677381287"]
         prompt_corrupt = [ randomize_phone(x, lookalike=lookalike, spelling=spelling, leet=leet, noise=noise, char_prob=char_prob, filler_prob=filler_noise) for x in prompt_phones ]
@@ -146,8 +150,9 @@ class Fragility():
         """
 
         # Unique seed based on bools
-        rseed = 3400 + int(1*cot + 2*cod + 40*percent_sub)
-        random.seed(rseed)
+        if MIMIC_PAPER_RANDOM:
+            rseed = 3400 + int(1*cot + 2*cod + 40*percent_sub)
+            random.seed(rseed)
 
         if not cot:
             prompt =  """You are a phone number decoder. Your task is to recover the digits of a phone number that may contain unicode characters that look similar to the original digit. Only respond with the digits."""
@@ -186,8 +191,9 @@ class Fragility():
         """
 
         # Unique seed based on bools
-        rseed = 1200 + int(1*cot + 2*cod)
-        random.seed(rseed)
+        if MIMIC_PAPER_RANDOM:
+            rseed = 1200 + int(1*cot + 2*cod)
+            random.seed(rseed)
 
         if not cot:
             prompt =  """You are a phone number decoder. Your task is to recover the digits of a phone number that may contain unicode characters that look similar to the original digit. Only respond with the digits."""
@@ -225,8 +231,9 @@ class Fragility():
         assert mode in ('lookalike','underscore','plain'), "Mode must be one of 'lookalike', 'underscore', or 'plain'"
 
         # Unique seed based on bools
-        rseed = 4300 + int(1*cot + 2*cod)
-        random.seed(rseed)
+        if MIMIC_PAPER_RANDOM:
+            rseed = 4300 + int(1*cot + 2*cod)
+            random.seed(rseed)
 
         # Few shot learning examples of distorted words and their originals.
         exans = ( 'gained', 'choose', 'horses' )
@@ -286,8 +293,9 @@ class Fragility():
         """
 
         # Unique seed based on bools
-        rseed = 4300 + int(1*cot + 2*cod)
-        random.seed(rseed)
+        if MIMIC_PAPER_RANDOM:
+            rseed = 4300 + int(1*cot + 2*cod)
+            random.seed(rseed)
 
         # Few shot learning examples of distorted words and their originals.
         exans = ( 'The horse jumped over the fence.', 'Running is really good for your health!', 'I enjoy playing video games.' )
@@ -712,17 +720,20 @@ if __name__ == "__main__":
     grades['lookalike_noise'] = sum( [w*a for w,a in zip([0.35,0.25,0.2,0.15,0.05], accuracies)] )
     print(f"Grade: {grades[list(grades)[-1]]} Lookalike + Noise accuracies: {accuracies}")
 
+    # MMLU setup
     from benchmarks import Benchmarks
     B = Benchmarks(model, outdir=tool.outdir)
 
     # MMLU norm
     print('MMLU test pure:')
-    grades['mmlu'] = B.mmlu_test("mmlu.txt", seed=142, altered_prob=0.0)
+    benchseed = 142 if MIMIC_PAPER_RANDOM else time.time_ns()%1000000
+    grades['mmlu'] = B.mmlu_test("mmlu.txt", seed=benchseed, altered_prob=0.0)
     print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
     
     # MMLU 20% noise
     print('MMLU test with 20% perturbed')
-    grades['mmlu2'] = B.mmlu_test("mmlu-20.txt", seed=143, altered_prob=0.2)
+    benchseed = 143 if MIMIC_PAPER_RANDOM else time.time_ns()%1000000
+    grades['mmlu2'] = B.mmlu_test("mmlu-20.txt", seed=benchseed, altered_prob=0.2)
     print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
 
     # # MMLU 40% noise
@@ -753,14 +764,15 @@ if __name__ == "__main__":
         0.1*grades['noise'] + 0.1*grades['spell'] + 0.1*grades['lookalike_noise']
 
     # How much do unicode chars help -- compared to just underscore blanks.
-    improvement = min(1, max(0, (accs['whatisthis-word'] - accs['whatisthis-word-under'])) / accs['whatisthis-word-under'])
+    improvement = min(1, max(0, (grades['whatisword-unicode'] - grades['whatisword-underscore'])) / grades['whatisword-underscore'])
     # Include the raw unicode-word score, but also its improvement over underscores.
-    letters_grade = 0.2*accs['whatisthis-let'] + 0.3*accs['whatisthis-word'] + 0.2*improvement + 0.3*accs['whatisthis-word-noise2']
+    letters_grade = 0.2*grades['whatislet'] + 0.3*grades['whatisword-unicode'] + 0.2*improvement + 0.3*grades['whatisword']
 
-    mmlu_grade = min(1.0, accs['mmlu-20']/accs['mmlu'])
-    NLU_grade = 0.6*mmlu_grade + 0.4*accs['whatisthis-sent']
+    mmlu_grade = min(1.0, grades['mmlu-20']/grades['mmlu'])
+    NLU_grade = 0.6*mmlu_grade + 0.4*grades['whatisthis-sent']
     overall_grade = 0.3*NLU_grade + 0.3*letters_grade + 0.4*phone_grade
 
+    print("WARNING: NOT OFFICIAL SCORES. Use scorer.py for official linear combination.")
     print(f"PHONE grade for {model_name}: {round(phone_grade,3)}")
     print(f"PHONE grade (no CoD) for {model_name}: {round(phone_noCoD_grade,3)}")
     print(f"MMLU grade for {model_name}: {round(mmlu_grade,3)}")

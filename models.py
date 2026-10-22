@@ -13,6 +13,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from LLM import LLM
 from OpenAI import OpenAIModel
 
+MODELS_DIR = "." # directory holding your local models
+
 def optimal_gpu():
     """
     Return a string (i.e., "cuda:1") of the GPU that has the most free memory at the moment.
@@ -141,138 +143,138 @@ class GenericModel(LLM):
         cleanup(self.model)
         return
 
-
+# Change all string paths to use the MODELS_DIR variable for consistency and easier maintenance.
 class phi2(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/Phi2",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Phi2",device=optimal_gpu(),quantization=qn)
 
 class phi3_4b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/phi3-mini-4b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/phi3-mini-4b",device=optimal_gpu(),quantization=qn)
 
 class phi3_7b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/phi3-small-7b-instant",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/phi3-small-7b-instant",device=optimal_gpu(),quantization=qn)
 
 class phi3_14b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/phi3-med-14b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/phi3-med-14b",device=optimal_gpu(),quantization=qn)
 
 class gemma1b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/gemma-3-1b-it",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/gemma-3-1b-it",device=optimal_gpu(),quantization=qn)
 
 class gemma4b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/gemma-3-4b-it",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/gemma-3-4b-it",device=optimal_gpu(),quantization=qn)
 
 class gemma12b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/gemma-3-12b-it",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/gemma-3-12b-it",device=optimal_gpu(),quantization=qn)
 
 class gemma27b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/gemma-3-27b-it",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/gemma-3-27b-it",device=optimal_gpu(),quantization=qn)
 
 class llama1b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/Llama3.2-1B",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Llama3.2-1B",device=optimal_gpu(),quantization=qn)
 
 class llama1b_in(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Llama3.2-1B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Llama3.2-1B-Instruct/",device=optimal_gpu(),quantization=qn)
     
 class llama3b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Llama3.2-3B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Llama3.2-3B/",device=optimal_gpu(),quantization=qn)
     
 class llama3b_in(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Llama3.2-3B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Llama3.2-3B-Instruct/",device=optimal_gpu(),quantization=qn)
 
 class llama70b(BatchModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Llama3.3-70B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Llama3.3-70B/",device=optimal_gpu(),quantization=qn)
 
 class llama70b_in(BatchModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Llama3.3-70B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Llama3.3-70B-Instruct/",device=optimal_gpu(),quantization=qn)
         
 class qwen0p6b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/qwen3-0.6b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/qwen3-0.6b",device=optimal_gpu(),quantization=qn)
 
 class qwen1p7b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/qwen3-1.7b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/qwen3-1.7b",device=optimal_gpu(),quantization=qn)
 
 class qwen4b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/qwen3-4b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/qwen3-4b",device=optimal_gpu(),quantization=qn)
 
 class qwen8b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/qwen3-8b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/qwen3-8b",device=optimal_gpu(),quantization=qn)
 
 class qwen14b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/qwen3-14b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/qwen3-14b",device=optimal_gpu(),quantization=qn)
 
 class qwen32b(GenericModel):
     def __init__(self,qn=None):     
-        super().__init__("/home/scs/nchamber/data/models/qwen3-32b",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/qwen3-32b",device=optimal_gpu(),quantization=qn)
 
 class vicuna7b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/vicuna-7B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/vicuna-7B/",device=optimal_gpu(),quantization=qn)
 
 class vicuna13b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/vicuna-13B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/vicuna-13B/",device=optimal_gpu(),quantization=qn)
 
 class mixtral7b(BatchModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Mixtral-7B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Mixtral-7B/",device=optimal_gpu(),quantization=qn)
 
 class mistral_small(GenericModel): # 24B
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Mistral-Small/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Mistral-Small/",device=optimal_gpu(),quantization=qn)
 
 class mistral_small_in(GenericModel): # 24B
     def __init__(self, qn=None):
-        super().__init__("/home/scs/nchamber/data/models/Mistral-Small-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/Mistral-Small-Instruct/",device=optimal_gpu(),quantization=qn)
 
 class deepseek_1p5b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-1.5B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/DeepSeek-R1-Distill-Qwen-1.5B/",device=optimal_gpu(),quantization=qn)
 
 class deepseek_7b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-7B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/DeepSeek-R1-Distill-Qwen-7B/",device=optimal_gpu(),quantization=qn)
 
 class deepseek_14b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-14B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/DeepSeek-R1-Distill-Qwen-14B/",device=optimal_gpu(),quantization=qn)
 
 class deepseek_32b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/DeepSeek-R1-Distill-Qwen-32B/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/DeepSeek-R1-Distill-Qwen-32B/",device=optimal_gpu(),quantization=qn)
 
 class olmo1b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/OLMo-2-0425-1B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/OLMo-2-0425-1B-Instruct/",device=optimal_gpu(),quantization=qn)
 
 class olmo7b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/OLMo-2-1124-7B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/OLMo-2-1124-7B-Instruct/",device=optimal_gpu(),quantization=qn)
 
 class olmo13b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/OLMo-2-1124-13B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/OLMo-2-1124-13B-Instruct/",device=optimal_gpu(),quantization=qn)
 
 class olmo32b(GenericModel):
     def __init__(self,qn=None):
-        super().__init__("/home/scs/nchamber/data/models/OLMo-2-0325-32B-Instruct/",device=optimal_gpu(),quantization=qn)
+        super().__init__(f"{MODELS_DIR}/OLMo-2-0325-32B-Instruct/",device=optimal_gpu(),quantization=qn)
 
 class gpt_3_5_turbo(OpenAIModel):
     def __init__(self, qn=None):
