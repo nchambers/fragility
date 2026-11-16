@@ -6,14 +6,24 @@
 # mamba install -c conda-forge -c pytorch transformers pytorch torchvision flash-attn-layer-norm spacy nltk tiktoken protobuf accelerate sentencepiece
 #
 import torch
+import os
 import re
 import sys
 import subprocess
+from pathlib import Path
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from LLM import LLM
 from OpenAI import OpenAIModel
 
-MODELS_DIR = "." # directory holding your local models
+MODELS_DIR = os.environ.get("MODELS_DIR", ".") # directory holding your local models
+
+def _require_model_directory(filepath):
+    if not Path(filepath).is_dir():
+        print(
+            f"Error: model directory '{filepath}' does not exist. "
+            "Check your environment variable, MODELS_DIR, and ensure the model has been downloaded."
+        )
+        raise SystemExit(1)
 
 def optimal_gpu():
     """
@@ -42,6 +52,7 @@ def cleanup(model):
 
 class BatchModel(LLM):
     def __init__(self,filepath,device,quantization=None):
+        _require_model_directory(filepath)
         self.pth = filepath
         self.dv = device
         self.tokenizer = AutoTokenizer.from_pretrained(self.pth)
@@ -98,6 +109,7 @@ class GenericModel(LLM):
             device (str): The device to run the model on, e.g., "cuda:0" or "cpu". Use "auto" for multiple GPUs.
             quantization (int, optional): The quantization level, either 8 or 4 bits. Defaults to None.
         """
+        _require_model_directory(filepath)
         self.pth = filepath
         print(f'Generic Model loading from {self.pth} on {device}')
         #self.device = torch.device(device)
