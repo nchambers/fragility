@@ -646,7 +646,7 @@ if __name__ == "__main__":
 
     print('What is this sentence test:')
     accuracy = tool.what_is_this_sentence("whatisthis-sent.txt",cot=False,cod=False,unicode_prob=0.1,N=300)
-    grades['whatissent'] = accuracy
+    grades['whatisthis-sent'] = accuracy
     print(f"Overall: {accuracy}")
 
     # Single similarity question: B -> 8
@@ -733,12 +733,12 @@ if __name__ == "__main__":
     # MMLU 20% noise
     print('MMLU test with 20% perturbed')
     benchseed = 143 if MIMIC_PAPER_RANDOM else time.time_ns()%1000000
-    grades['mmlu2'] = B.mmlu_test("mmlu-20.txt", seed=benchseed, altered_prob=0.2)
+    grades['mmlu-20'] = B.mmlu_test("mmlu-20.txt", seed=benchseed, altered_prob=0.2)
     print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
 
     # # MMLU 40% noise
     # print('MMLU test with 40% perturbed')
-    # grades['mmlu4'] = B.mmlu_test("mmlu-40.txt", seed=144, altered_prob=0.4)
+    # grades['mmlu4'] = B.mmlu_test("mmlu-40.txt", seed=144, altered_prob=0.4)x
     # print(f"Accuracy: {round(grades[list(grades)[-1]],3)}")
 
     # # MMLU 60% noise
