@@ -19,17 +19,15 @@ import backoff
 from LLM import LLM
 
 
-# Check for API key
-if not 'OPENAI_API_KEY' in os.environ:
-    print("You must set the environment variable OPENAI_API_KEY.")
-    print("The OpenAI class requires an API key to a paid OpenAI account.")
-    exit(1)
-    
-
 class OpenAIModel(LLM):
 
     def __init__(self, model='gpt-4o-mini', temperature=1):
         ''' @model Specify a valid OpenAI model name as a string '''
+        if not os.environ.get('OPENAI_API_KEY'):
+            raise RuntimeError(
+                "You must set the environment variable OPENAI_API_KEY. "
+                "The OpenAI class requires an API key to a paid OpenAI account."
+            )
         super().__init__()
         self.model = model
         self.temperature = temperature
