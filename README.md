@@ -1,5 +1,5 @@
 # LLM Fragility Scoring
-Software for the paper, [LLMs are Easily Startled: Fragility Testing with Lookalike Character Noise](https://aclanthology.org/2026.wnut-1.12/). Best Paper award at [W-NUT 2026](https://noisy-text.github.io/2026/)
+Software for the paper, [LLMs are Easily Startled: Fragility Testing with Lookalike Character Noise](https://aclanthology.org/2026.wnut-1.12/). Best Paper award at [W-NUT 2026](https://noisy-text.github.io/2026/).
 
 This project contains a benchmark dataset and scoring program to measure the brittleness/fragility of LLMs when faced with input text that contains non-ASCII characters and other noisy confounding input, like spurious characters, spacing, and punctuation.
 
